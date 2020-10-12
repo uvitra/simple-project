@@ -26,8 +26,11 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageInfo> getPageInfo() {
         int totalVideos = videoService.getTotalCount().intValue();
-        int totalPages = totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0);
-        PageInfo info = new PageInfo(totalVideos,totalPages,perPageCount,1);
+        PageInfo info = new PageInfo(
+									 totalVideos,
+									 totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0),
+									 perPageCount,
+									 1);
         return new ResponseEntity<>(info,HttpStatus.OK);
     }
 
@@ -35,8 +38,11 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageInfo> getPageInfoByName(@PathVariable("searchTerm") String name) {
         int totalVideos = videoService.getTotalCountByNameLike(name).intValue();
-        int totalPages = totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0);
-        PageInfo info = new PageInfo(totalVideos,totalPages,perPageCount,1);
+        PageInfo info = new PageInfo(
+									 totalVideos,
+									 totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0),
+									 perPageCount,
+									 1);
         return new ResponseEntity<>(info,HttpStatus.OK);
     }
 
@@ -44,8 +50,11 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageInfo> getPageInfo(@RequestBody VideoFilterDTO filterDTO) {
         int totalVideos = videoService.getFilteredTotalCount(filterDTO).intValue();
-        int totalPages = totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0);
-        PageInfo info = new PageInfo(totalVideos,totalPages,perPageCount,1);
+        PageInfo info = new PageInfo(
+									 totalVideos,
+									 totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0),
+									 perPageCount,
+									 1);
         return new ResponseEntity<>(info,HttpStatus.OK);
     }
 

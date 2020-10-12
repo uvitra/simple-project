@@ -1,14 +1,15 @@
-//Util 1
+//Util 3
 public class Util {
 
     /**
-     * Multiplies two numbers
+     * Multiplies three numbers
 	 *
      * @param a first number
      * @param b second number
-     * @return int Result of a X b
+	 * @param c third number
+     * @return int Result of a X b X c
      */
-    public static int multiply(int a, int b) {
-        return a*b;
+    public static int multiply(int a, int b, int c) {
+        return a*b*c;
     }
 } 
