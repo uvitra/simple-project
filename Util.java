@@ -1,15 +1,15 @@
-//Util 3
-public class Util {
+//Util2
+import java.util.Arrays;
 
-    /**
-     * Multiplies three numbers
+public class Util {
+    
+	/**
+     * Multiplies any number of integers
 	 *
-     * @param a first number
-     * @param b second number
-	 * @param c third number
-     * @return int Result of a X b X c
+     * @param numbers numbers to multiply
+     * @return int Result of multiplying all elements of numbers
      */
-    public static int multiply(int a, int b, int c) {
-        return a*b*c;
+    public static int multiply(int... numbers) {
+        return Arrays.stream(numbers).reduce(1,(result,n) -> result*n);
     }
-} 
+}
