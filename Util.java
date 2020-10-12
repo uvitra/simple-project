@@ -1,14 +1,15 @@
-//Util 1
-public class Util {
+//Util2
+import java.util.Arrays;
 
-    /**
-     * Multiplies two numbers
+public class Util {
+    
+	/**
+     * Multiplies any number of integers
 	 *
-     * @param a first number
-     * @param b second number
-     * @return int Result of a X b
+     * @param numbers numbers to multiply
+     * @return int Result of multiplying all elements of numbers
      */
-    public static int multiply(int a, int b) {
-        return a*b;
+    public static int multiply(int... numbers) {
+        return Arrays.stream(numbers).reduce(1,(result,n) -> result*n);
     }
-} 
+}

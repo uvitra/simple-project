@@ -26,7 +26,8 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageInfo> getPageInfo() {
         int totalVideos = videoService.getTotalCount().intValue();
-        int totalPages = totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0);
+        int totalPages = totalVideos/perPageCount;
+         totalPages += (totalVideos%perPageCount > 0 ? 1 : 0);
         PageInfo info = new PageInfo(totalVideos,totalPages,perPageCount,1);
         return new ResponseEntity<>(info,HttpStatus.OK);
     }
@@ -44,7 +45,8 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PageInfo> getPageInfo(@RequestBody VideoFilterDTO filterDTO) {
         int totalVideos = videoService.getFilteredTotalCount(filterDTO).intValue();
-        int totalPages = totalVideos/perPageCount + (totalVideos%perPageCount > 0 ? 1 : 0);
+        int totalPages = totalVideos/perPageCount
+        totalPages += (totalVideos%perPageCount > 0 ? 1 : 0);
         PageInfo info = new PageInfo(totalVideos,totalPages,perPageCount,1);
         return new ResponseEntity<>(info,HttpStatus.OK);
     }
@@ -85,6 +87,7 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<YoutubeVideo> saveVideo(@RequestBody YoutubeVideo vid) { //Changing from dto to model
         if(videoService.videoByYoutubeIdExists(vid.getYoutubeId())) {
+			logger.error("Video already present #"+vid.getYoutubeId());
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         YoutubeVideo video = videoService.persist(vid);
@@ -95,6 +98,7 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> updateVideo(@PathVariable("id") String id, @RequestBody YoutubeVideo vid) {
         if(!videoService.videoExists(id)) {
+			logger.error("Video not found #"+id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         vid.setId(id); //just to be sure!
@@ -106,6 +110,7 @@ public class VideoController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteVideo(@PathVariable("id") String id) {
         if(!videoService.videoExists(id)) {
+            logger.error("Video not found #"+id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         videoService.deleteById(id);
